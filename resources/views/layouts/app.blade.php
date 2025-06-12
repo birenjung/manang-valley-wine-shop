@@ -8,8 +8,10 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="stylesheet" href="{{ asset('be-assets/js-css/custom.css') }}">
+
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel=" preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
@@ -27,8 +29,11 @@
             @include('layouts.dashboard')
         </main>
     </div>
-      <!-- flowbite js -->
+    <script src="{{asset('be-assets/js-css/custom.js')}}"></script>
+    <!-- flowbite js -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+   
+
 </body>
 
 </html>

@@ -1,11 +1,13 @@
 <div class="antialiased bg-gray-50 dark:bg-gray-900">
 
   <?php
+
   use App\Models\Setting;
+
   $setting = Setting::first();
- 
+
   ?>
-  
+
   <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
     <div class="flex justify-between items-center">
 
@@ -55,7 +57,7 @@
             <path d="M13.73 21a2 2 0 01-3.46 0"></path>
           </svg>
           <!-- Red dot badge -->
-         <!-- @isset($userWarnings)
+          <!-- @isset($userWarnings)
           <span class="absolute top-1 right-1 inline-flex items-center justify-center w-2 h-2 text-xs font-bold text-white bg-red-600 rounded-full"></span>
           @endisset -->
         </button>
@@ -182,6 +184,8 @@
     </div>
   </nav>
 
+   
+
   <!-- Sidebar -->
 
   <aside
@@ -207,7 +211,7 @@
             <span class="ml-3">Dashboard</span>
           </a>
         </li>
-      
+
         <li>
           <button
             type="button"
@@ -225,7 +229,7 @@
                 d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
                 clip-rule="evenodd"></path>
             </svg>
-            <span class="flex-1 ml-3 text-left whitespace-nowrap">Users</span>
+            <span class="flex-1 ml-3 text-left whitespace-nowrap">Products</span>
             <svg
               aria-hidden="true"
               class="w-6 h-6"
@@ -242,26 +246,26 @@
           <ul id="dropdown-pages" class="hidden py-2 space-y-2">
             <li>
               <a
-                href=""
-                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All users</a>
+                href="{{route('products.index')}}"
+                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All products</a>
             </li>
-            <li>
+            <!-- <li>
               <a
                 href=""
-                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create user</a>
-            </li>
+                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create product</a>
+            </li> -->
 
           </ul>
         </li>
 
-       
-          <ul id="settings.menu" class="hidden py-2 space-y-2">
-            <li>
-              <a
-                href="{{route('profile.edit')}}"
-                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">My profile settings</a>
-            </li>
-          </ul>
+
+        <ul id="settings.menu" class="hidden py-2 space-y-2">
+          <li>
+            <a
+              href="{{route('profile.edit')}}"
+              class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">My profile settings</a>
+          </li>
+        </ul>
         </li>
 
         <li>
@@ -287,7 +291,17 @@
 </div>
 </aside>
 
+
+
 <main class="p-4 md:ml-64 h-auto pt-20 first-wrapper">
+   <!-- Tooltip Element -->
+    
+      <!-- Tooltip Element -->
+  <!-- Tooltip container -->
+
+
+
+    
   @yield('content')
 </main>
 </div>

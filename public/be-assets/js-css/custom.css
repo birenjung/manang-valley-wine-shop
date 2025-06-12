@@ -1,0 +1,11 @@
+.tooltip-above {
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 8px;
+}
+
+.tooltip-below {
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+}

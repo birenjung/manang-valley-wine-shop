@@ -31,8 +31,8 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         return match ($user->role) {
-            '1' => redirect()->intended('/dashboard'),
-            '2' => redirect()->back()->with('success', 'You logged in successfully.'),
+            1 => redirect()->intended('/dashboard'),
+            2 => redirect()->back()->with('success', 'You logged in successfully.'),
             default => redirect()->intended('/'),
         };
 
