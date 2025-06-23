@@ -40,4 +40,22 @@ class Order extends Model
     {
         return $this->hasMany(OrderDetail::class);
     }
+
+      // Relationships
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Helper method to get distinct statuses for filter options
+    public static function getDistinctStatuses(): array
+    {
+        return self::distinct()->pluck('status')->filter()->toArray();
+    }
+
+    // Scope for applying filters (alternative approach)
+    public function scopeFilter($query, array $filters)
+    {
+        return (new \App\Filters\OrderFilter($query, request()))->apply();
+    }
 }
