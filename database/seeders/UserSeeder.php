@@ -30,5 +30,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'),
             'email_verified_at' => Carbon::now(),
         ]);
+
+        User::factory()->count(10)->create();
     }
 }

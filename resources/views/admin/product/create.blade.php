@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@php $pageTitle = 'Create Product' @endphp
 @section('content')
 
 <div class="wrapper">

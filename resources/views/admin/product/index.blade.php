@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@php $pageTitle = 'Manage Products' @endphp
 @section('content')
 
 <div class="flex justify-between items-center mb-4 header-main">

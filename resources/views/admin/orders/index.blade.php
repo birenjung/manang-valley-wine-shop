@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@php $pageTitle = 'Manage Orders' @endphp
 @section('content')
 
 @php
@@ -25,33 +26,19 @@ use Illuminate\Support\Carbon;
 
 
 <form method="GET" action="{{ route('orders.index') }}" class="mb-6 space-y-4 sm:space-y-0 sm:flex sm:items-end sm:gap-4 flex-wrap">
-    <!-- Search -->
-    <!-- <div class="flex-1 min-w-[220px]">
-        <label for="search" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Search</label>
-        <input
-            type="text"
-            id="search"
-            name="search"
-            value="{{ request('search') }}"
-            placeholder="Name, email, phone..."
-            class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-        >
-    </div> -->
-
-    <!-- Customer name filter -->
-
-   
-
+    <!-- Customer Name Filter -->
     <div class="min-w-[160px]">
-        <label for="customer" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Customer Name</label>
+        <label for="customer_id" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Customer Name</label>
         <select
-            id="customer"
-            name="customer"
+            id="customer_id"
+            name="customer_id"
             class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-white"
         >
             <option value="">All</option>
             @foreach($customers as $customer)
-                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                <option value="{{ $customer->id }}" @selected(request('customer_id') == $customer->id)>
+                    {{ $customer->name }}
+                </option>
             @endforeach
         </select>
     </div>
@@ -66,7 +53,9 @@ use Illuminate\Support\Carbon;
         >
             <option value="">All</option>
             @foreach(['pending', 'processing', 'shipped', 'delivered', 'cancelled'] as $status)
-                <option value="{{ $status }}" @selected(request('status') == $status)>{{ ucfirst($status) }}</option>
+                <option value="{{ $status }}" @selected(request('status') == $status)>
+                    {{ ucfirst($status) }}
+                </option>
             @endforeach
         </select>
     </div>
@@ -81,7 +70,9 @@ use Illuminate\Support\Carbon;
         >
             <option value="">All</option>
             @foreach(['unpaid', 'paid', 'refunded'] as $pstatus)
-                <option value="{{ $pstatus }}" @selected(request('payment_status') == $pstatus)>{{ ucfirst($pstatus) }}</option>
+                <option value="{{ $pstatus }}" @selected(request('payment_status') == $pstatus)>
+                    {{ ucfirst($pstatus) }}
+                </option>
             @endforeach
         </select>
     </div>
@@ -109,8 +100,6 @@ use Illuminate\Support\Carbon;
             class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
         >
     </div>
-
-  
 
     <!-- Sort Direction -->
     <div class="min-w-[120px]">
@@ -149,6 +138,76 @@ use Illuminate\Support\Carbon;
         </button>
     </div>
 </form>
+
+@if (request()->hasAny(['search', 'customer_id', 'status', 'payment_status', 'date_from', 'date_to', 'sort_direction', 'per_page']))
+    <div class="mt-4 mb-4 flex flex-wrap items-center gap-2 text-sm">
+
+        {{-- Active Filters --}}
+        @if (request('customer_id'))
+            <span class="inline-flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                Customer: {{ $customers->firstWhere('id', request('customer_id'))?->name ?? 'Unknown' }}
+                <a href="{{ request()->fullUrlWithQuery(['customer_id' => null]) }}"
+                   class="ml-2 text-blue-500 hover:text-blue-700">&times;</a>
+            </span>
+        @endif
+
+        @if (request('status'))
+            <span class="inline-flex items-center bg-green-100 text-green-800 px-3 py-1 rounded-full">
+                Status: {{ ucfirst(request('status')) }}
+                <a href="{{ request()->fullUrlWithQuery(['status' => null]) }}"
+                   class="ml-2 text-green-500 hover:text-green-700">&times;</a>
+            </span>
+        @endif
+
+        @if (request('payment_status'))
+            <span class="inline-flex items-center bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">
+                Payment: {{ ucfirst(request('payment_status')) }}
+                <a href="{{ request()->fullUrlWithQuery(['payment_status' => null]) }}"
+                   class="ml-2 text-yellow-500 hover:text-yellow-700">&times;</a>
+            </span>
+        @endif
+
+        @if (request('date_from'))
+            <span class="inline-flex items-center bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
+                From: {{ request('date_from') }}
+                <a href="{{ request()->fullUrlWithQuery(['date_from' => null]) }}"
+                   class="ml-2 text-purple-500 hover:text-purple-700">&times;</a>
+            </span>
+        @endif
+
+        @if (request('date_to'))
+            <span class="inline-flex items-center bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
+                To: {{ request('date_to') }}
+                <a href="{{ request()->fullUrlWithQuery(['date_to' => null]) }}"
+                   class="ml-2 text-purple-500 hover:text-purple-700">&times;</a>
+            </span>
+        @endif
+
+        @if (request('sort_direction'))
+            <span class="inline-flex items-center bg-gray-100 text-gray-800 px-3 py-1 rounded-full">
+                Sort: {{ ucfirst(request('sort_direction')) }}
+                <a href="{{ request()->fullUrlWithQuery(['sort_direction' => null]) }}"
+                   class="ml-2 text-gray-500 hover:text-gray-700">&times;</a>
+            </span>
+        @endif
+
+        @if (request('per_page') && request('per_page') != 15)
+            <span class="inline-flex items-center bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">
+                Per Page: {{ request('per_page') }}
+                <a href="{{ request()->fullUrlWithQuery(['per_page' => null]) }}"
+                   class="ml-2 text-indigo-500 hover:text-indigo-700">&times;</a>
+            </span>
+        @endif
+
+        {{-- Clear All Button --}}
+        <a href="{{ route('orders.index') }}"
+           class="ml-2 inline-flex items-center px-4 py-1.5 bg-red-100 text-red-700 rounded-md font-medium hover:bg-red-200 transition">
+            Clear All Filters
+        </a>
+    </div>
+@endif
+
+
 
 
 
