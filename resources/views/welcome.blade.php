@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+ 
     <div class="owl-carousel hero-slide owl-style">
         {{-- Hero Carousel items --}}
         <div class="intro-section container" style="background-image: url('/fe-assets/images/hero_1.jpg');">

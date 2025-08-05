@@ -13,7 +13,7 @@
   --bg-dark: #000000;
   --text-primary: #f0e68c;
   --text-secondary: #c0c0c0;
-  --neon-pink: #FF007F;
+  --neon-pink: #cf9b0a;
   --neon-turquoise: #00FFFF;
 
   /* New Cyber-Herbal Colors */
@@ -21,13 +21,17 @@
   --herbal-gold: #FFD700;
 
   /* Typography */
-  --font-heading: 'Press Start 2P', cursive;
-  --font-body: 'Poppins', sans-serif;
+  /* --font-heading: 'Press Start 2P', cursive; */
+  /* --font-body: 'Poppins', sans-serif; */
 }
 
 /* Base */
 html {
   overflow-x: hidden;
+}
+
+.header-top {
+  background-color: #fff;
 }
 
 body {
@@ -38,7 +42,21 @@ body {
   font-size: 1rem;
   background-color: var(--bg-dark);
   /* Set body to a dark background */
-  font-family: var(--font-body);
+  font-family: 'Lato', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Example for an accent element */
+.special-heading {
+  font-family: 'Playfair Display', serif;
   /* Use Poppins for body text */
 }
 
@@ -75,7 +93,7 @@ h5,
   /* Use Pacifico for headings */
   color: var(--neon-pink);
   /* Apply neon pink color */
-  text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+  /* text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink); */
   transition: text-shadow 0.3s ease-in-out;
 }
 
@@ -627,7 +645,7 @@ h4:hover {
   font-family: var(--font-heading);
   font-weight: 900;
   text-transform: uppercase;
-  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+  /* text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); */
 }
 
 @media (max-width: 991.98px) {
@@ -1281,7 +1299,7 @@ h4:hover {
   font-family: var(--font-heading);
   font-weight: 900;
   text-transform: uppercase;
-  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+  /* text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); */
 }
 
 @media (max-width: 991.98px) {
@@ -1483,8 +1501,8 @@ h4:hover {
   justify-content: center;
 }
 
-.social-icons a:hover { 
-  background-color: var(--neon-turquoise) !important; 
+.social-icons a:hover {
+  background-color: var(--neon-turquoise) !important;
 }
 
 /* Copyright section */

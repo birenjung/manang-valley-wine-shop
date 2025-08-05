@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Manang Valley Wine Shop</title>
     <meta charset="utf-8">
@@ -8,17 +9,17 @@
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
     {{-- Third-Party CSS --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    
+
     {{-- Project CSS --}}
     <link rel="stylesheet" href="{{ asset('fe-assets/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fe-assets/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fe-assets/css/style.css') }}">
-    
+
     {{-- Yield any page-specific CSS --}}
     @yield('styles')
 </head>
@@ -47,4 +48,5 @@
     {{-- Yield any page-specific scripts --}}
     @yield('scripts')
 </body>
+
 </html>
