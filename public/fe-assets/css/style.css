@@ -9,16 +9,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap');
 
 :root {
-  /* Define our retro neon color palette */
-  --neon-pink: #ff0055;
-  --neon-turquoise: #00ffff;
-  --bg-dark: #1a1a1a;
-  --text-primary: #f0f0f0;
-  /* Light gray for readability on dark background */
-  --text-secondary: #aaaaaa;
+  /* Existing Retro Neon Colors */
+  --bg-dark: #000000;
+  --text-primary: #f0e68c;
+  --text-secondary: #c0c0c0;
+  --neon-pink: #FF007F;
+  --neon-turquoise: #00FFFF;
 
-  /* Fonts for the theme */
-  --font-heading: 'Pacifico', cursive;
+  /* New Cyber-Herbal Colors */
+  --neon-green: #39FF14;
+  --herbal-gold: #FFD700;
+
+  /* Typography */
+  --font-heading: 'Press Start 2P', cursive;
   --font-body: 'Poppins', sans-serif;
 }
 
@@ -1358,26 +1361,22 @@ h4:hover {
   background: var(--neon-pink);
 }
 
-/*
- * Enhanced styling for the social media block in the footer.
- * This styles the container, and the icons for a cohesive retro neon look.
- */
-
-
-/* --- Footer Enhancements for Retro Neon Theme --- */
-
+/* --- Main Footer Container --- */
 .footer {
   background-color: var(--bg-dark);
   padding-top: 5rem;
   padding-bottom: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--neon-turquoise);
+  box-shadow: 0 -2px 10px rgba(0, 255, 255, 0.2);
+  font-family: var(--font-body);
 }
 
+/* --- Footer Headings --- */
 .footer-heading {
   font-family: var(--font-heading);
   font-size: 1.5rem;
-  color: var(--neon-pink);
-  text-shadow: 0 0 5px var(--neon-pink);
+  color: var(--neon-green);
+  text-shadow: 0 0 5px var(--neon-green);
   margin-bottom: 20px;
   position: relative;
 }
@@ -1389,8 +1388,137 @@ h4:hover {
   bottom: -5px;
   width: 50px;
   height: 2px;
-  background-color: var(--neon-turquoise);
-  box-shadow: 0 0 5px var(--neon-turquoise);
+  background-color: var(--herbal-gold);
+  box-shadow: 0 0 5px var(--herbal-gold);
+}
+
+.footer p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* --- Quick Links Section --- */
+.footer .list-unstyled li a {
+  color: var(--neon-pink);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  position: relative;
+  font-size: 0.95rem;
+}
+
+.footer .list-unstyled li a:hover {
+  color: var(--herbal-gold);
+  text-shadow: 0 0 5px var(--herbal-gold);
+}
+
+.footer .list-unstyled li a::before {
+  content: "«";
+  position: absolute;
+  left: -15px;
+  color: var(--neon-turquoise);
+  text-shadow: 0 0 5px var(--neon-turquoise);
+}
+
+.footer .list-unstyled li a:hover::before {
+  color: var(--herbal-gold);
+}
+
+/* --- Contact Info Section --- */
+.footer .list-unstyled span {
+  font-weight: 700;
+  color: var(--neon-green);
+  text-shadow: 0 0 3px var(--neon-green);
+}
+
+.footer .list-unstyled span+span {
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-shadow: none;
+}
+
+/* --- Social Icons --- */
+/* Social Icons with a visible hover state */
+
+
+
+
+/* --- Copyright Section --- */
+.footer .copyright p {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.footer .copyright p:first-of-type {
+  margin-bottom: 5px;
+}
+
+.footer .copyright a {
+  color: var(--herbal-gold);
+  text-decoration: none;
+  text-shadow: 0 0 3px var(--herbal-gold);
+  transition: color 0.3s ease;
+}
+
+.footer .copyright a:hover {
+  color: var(--neon-green);
+  text-decoration: underline;
+  text-shadow: 0 0 5px var(--neon-green);
+}
+
+.footer .copyright a strong {
+  color: var(--neon-pink);
+  text-shadow: 0 0 3px var(--neon-pink);
+}
+
+/* Enhanced Social Icons */
+.social-icons {
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  /* Added margin for spacing */
+  display: flex;
+  justify-content: center;
+}
+
+.social-icons a:hover { 
+  background-color: var(--neon-turquoise) !important; 
+}
+
+/* Copyright section */
+/* --- Footer Enhancements for Nature/Holistic Theme --- */
+
+.footer {
+  background-color: var(--bg-dark);
+  padding-top: 5rem;
+  padding-bottom: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--font-body);
+  /* Using the new body font */
+}
+
+.footer-heading {
+  font-family: var(--font-heading);
+  /* Using the new heading font */
+  font-size: 1.5rem;
+  color: var(--accent-green);
+  text-shadow: none;
+  /* Removing the neon glow */
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.footer-heading:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 50px;
+  height: 1px;
+  background-color: var(--accent-gold);
+  box-shadow: none;
 }
 
 .footer p {
@@ -1412,76 +1540,72 @@ h4:hover {
 }
 
 .footer .list-unstyled li a:hover {
-  color: var(--neon-turquoise);
-  text-shadow: 0 0 5px var(--neon-turquoise);
+  color: var(--accent-gold);
+  text-shadow: none;
+}
+
+.footer .list-unstyled li a::before {
+  content: "—";
+  /* Changing the bullet to a dash */
+  position: absolute;
+  left: -15px;
+  color: var(--accent-gold);
+  opacity: 0.8;
 }
 
 .footer .list-unstyled li a:hover::before {
-  content: "»";
-  position: absolute;
-  left: -15px;
-  color: var(--neon-turquoise);
-  text-shadow: 0 0 5px var(--neon-turquoise);
-}
-
-.footer .list-unstyled li a:not(:hover)::before {
-    content: "»";
-    position: absolute;
-    left: -15px;
-    color: var(--text-primary);
-    text-shadow: none;
-    opacity: 0.5;
+  color: var(--accent-green);
+  /* Subtle color change on hover */
 }
 
 .footer .list-unstyled span {
   font-weight: 700;
-  color: var(--neon-pink);
-  text-shadow: 0 0 3px var(--neon-pink);
-}
-
-.footer .list-unstyled span + span {
-  font-weight: 400;
-  color: var(--text-secondary);
+  color: var(--accent-green);
   text-shadow: none;
 }
 
-/* Enhanced Social Icons */
-.social-icons {
-    text-align: left;
-    margin-top: 20px;
-    margin-bottom: 20px; /* Added margin for spacing */
-    display: flex;
-    justify-content: center;
+.footer .list-unstyled span+span {
+  font-weight: 400;
+  color: var(--text-secondary);
 }
 
-.social-icons a {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-    border-radius: 50%;
-    
-    /* Initial state: neon pink outline */
-    background: transparent;
-    color: var(--neon-pink);
-    border: 2px solid var(--neon-pink);
-    box-shadow: 0 0 5px var(--neon-pink);
-    
-    transition: all .3s ease-in-out;
+/* Social Icons */
+.footer .social-icons {
+  text-align: left;
+  margin-top: 20px;
 }
 
-.social-icons a:hover {
-    /* Hover state: switches to solid neon turquoise */
-    background: var(--neon-turquoise);
-    color: var(--bg-dark); /* Dark text on bright background */
-    border-color: var(--neon-turquoise);
-    
-    /* Intense glow effect on hover */
-    box-shadow: 0 0 10px var(--neon-turquoise), 0 0 20px var(--neon-turquoise), 0 0 30px var(--neon-turquoise);
-    transform: scale(1.1); /* Slightly enlarge the icon */
+.footer .social-icons a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  /* Slightly smaller */
+  height: 35px;
+  margin-right: 8px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--text-secondary);
+  /* Thinner, subtle border */
+  box-shadow: none;
+  /* Removing the glow effect */
+
+  transition: all .3s ease-in-out;
+}
+
+.footer .social-icons a:hover {
+  background: var(--accent-green);
+  color: var(--bg-dark);
+  /* Dark text on green background */
+  border-color: var(--accent-green);
+  box-shadow: 0 0 5px rgba(109, 146, 98, 0.5);
+  /* Subtle shadow instead of a full glow */
+  transform: scale(1.05);
+  /* Gentle scale effect */
 }
 
 /* Copyright section */
@@ -1493,18 +1617,18 @@ h4:hover {
 }
 
 .footer .copyright p a {
-    /* color: var(--neon-turquoise); */
-    text-decoration: underline;
+  color: var(--accent-gold);
+  text-decoration: underline;
 }
 
 .footer .copyright p a:hover {
-    color: var(--neon-pink);
+  color: var(--accent-green);
 }
 
 .footer .copyright p strong {
-  color: var(--neon-pink);
+  color: var(--accent-green);
   font-weight: normal;
-  text-shadow: 0 0 2px var(--neon-pink);
+  text-shadow: none;
 }
 
 .page-title-wrap h1 {
