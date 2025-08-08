@@ -37,7 +37,7 @@
                 <div class="col-12 section-title text-center mb-5">
                     <h2 class="d-block">Our Products</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, perspiciatis!</p>
-                    <p><a href="#">View All Products <span class="icon-long-arrow-right"></span></a></p>
+                    <p><a href="{{ route('all.products') }}">View All Products <span class="icon-long-arrow-right"></span></a></p>
                 </div>
             </div>
             <div class="row">
