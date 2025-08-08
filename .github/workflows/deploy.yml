@@ -159,6 +159,10 @@ jobs:
             mkdir -p storage/framework/cache
             mkdir -p storage/framework/sessions
             mkdir -p storage/framework/views
+
+            # vite build
+            npm install
+            npm run build
             
             # Clean up
             rm -f /tmp/deploy.tar.gz
