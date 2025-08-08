@@ -162,6 +162,8 @@ jobs:
 
             # vite build
             npm install
+            chmod +x node_modules/.bin/vite
+            chmod +x node_modules/@esbuild/linux-x64/bin/esbuild
             npm run build
             
             # Clean up
