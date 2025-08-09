@@ -9,21 +9,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap');
 
 :root {
-  /* Existing Retro Neon Colors */
-  --bg-dark: #000000;
+  /* Background */
+  --bg-dark: rgb(20, 20, 20);
+  /* Good dark for eye comfort */
+
+  /* Text Colors */
   --text-primary: #f0e68c;
+  /* Khaki - warm, good contrast */
   --text-secondary: #c0c0c0;
-  --neon-pink: #cf9b0a;
-  --neon-turquoise: #00FFFF;
+  /* Silver - softer secondary text */
+
+  /* Neon Accent Colors */
+  --neon-pink: #cf009f;
+  /* Slightly cooler neon pink for vibrancy */
+  --neon-turquoise: #00ffff;
+  /* Bright turquoise */
 
   /* New Cyber-Herbal Colors */
-  --neon-green: #39FF14;
-  --herbal-gold: #FFD700;
+  --neon-green: #39ff14;
+  /* Bright neon green */
+  --herbal-gold: rgba(255, 215, 0, 0.5);
+  /* Corrected to rgba for transparency */
 
-  /* Typography */
+  /* Typography (commented for now) */
   /* --font-heading: 'Press Start 2P', cursive; */
   /* --font-body: 'Poppins', sans-serif; */
 }
+
 
 /* Base */
 html {

@@ -12,11 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18' # Use a recent, stable Node.js version
-      
       - name: Validate secrets
         run: |
           if [ -z "${{ secrets.CPANEL_HOST }}" ]; then
@@ -27,8 +22,8 @@ jobs:
             echo "Error: CPANEL_USER secret is not set"
             exit 1
           fi
-          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
-            echo "Error: SSH_PRIVATE_KEY secret is not set"
+          if [ -z "${{ secrets.CPANEL_SSH_KEY }}" ]; then
+            echo "Error: CPANEL_SSH_KEY secret is not set"
             exit 1
           fi
           if [ -z "${{ secrets.DEPLOY_PATH }}" ]; then
@@ -40,49 +35,137 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts
-          echo "SSH setup completed successfully"
           
-      - name: Deploy and build on server
+          # Debug: Check if host is reachable
+          echo "Testing connection to ${{ secrets.CPANEL_HOST }}..."
+          
+          # Try different SSH ports (cPanel often uses non-standard ports)
+          for port in 22 2222 2223; do
+            echo "Trying port $port..."
+            if ssh-keyscan -p $port -H ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts 2>/dev/null; then
+              echo "Successfully connected on port $port"
+              echo "SSH_PORT=$port" >> $GITHUB_ENV
+              break
+            fi
+          done
+          
+          # Verify known_hosts was populated
+          if [ ! -s ~/.ssh/known_hosts ]; then
+            echo "Error: Could not establish SSH connection to host"
+            echo "Please verify your CPANEL_HOST and ensure SSH access is enabled"
+            exit 1
+          fi
+          
+          echo "SSH setup completed successfully"
+        
+      - name: Test SSH connection
         run: |
           ssh -o StrictHostKeyChecking=no \
+              -p ${SSH_PORT:-22} \
+              ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }} \
+              "echo 'SSH connection successful'"
+        
+      - name: Check for rsync availability
+        id: check_rsync
+        run: |
+          if ssh -o StrictHostKeyChecking=no \
+                 -p ${SSH_PORT:-22} \
+                 ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }} \
+                 "command -v rsync" > /dev/null 2>&1; then
+            echo "rsync_available=true" >> $GITHUB_OUTPUT
+            echo "rsync is available on the server"
+          else
+            echo "rsync_available=false" >> $GITHUB_OUTPUT
+            echo "rsync is not available, will use alternative method"
+          fi
+      
+      - name: Deploy via rsync (if available)
+        if: steps.check_rsync.outputs.rsync_available == 'true'
+        run: |
+          # Create deployment directory if it doesn't exist
+          ssh -o StrictHostKeyChecking=no \
+              -p ${SSH_PORT:-22} \
+              ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }} \
+              "mkdir -p ${{ secrets.DEPLOY_PATH }}"
+          
+          # Rsync with proper SSH options
+          rsync -avz --delete \
+                -e "ssh -o StrictHostKeyChecking=no -p ${SSH_PORT:-22}" \
+                --exclude='.git' \
+                --exclude='.github' \
+                --exclude='node_modules' \
+                --exclude='.env*' \
+                --exclude='tests' \
+                --exclude='phpunit.xml' \
+                --exclude='README.md' \
+                ./ ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }}:${{ secrets.DEPLOY_PATH }}
+          
+          echo "Deployment via rsync completed successfully"
+      
+      - name: Deploy via SCP/SSH (fallback method)
+        if: steps.check_rsync.outputs.rsync_available == 'false'
+        run: |
+          # Create a clean build directory
+          mkdir -p ./deploy_build
+          
+          # Copy files excluding unnecessary ones
+          rsync -av --exclude='.git' \
+                    --exclude='.github' \
+                    --exclude='node_modules' \
+                    --exclude='.env*' \
+                    --exclude='tests' \
+                    --exclude='phpunit.xml' \
+                    --exclude='README.md' \
+                    --exclude='deploy_build' \
+                    ./ ./deploy_build/
+          
+          # Create tarball of the build
+          cd deploy_build
+          tar -czf ../deploy.tar.gz .
+          cd ..
+          
+          # Upload tarball
+          scp -o StrictHostKeyChecking=no -P ${SSH_PORT:-22} \
+              deploy.tar.gz ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }}:/tmp/
+          
+          # Execute deployment commands directly via SSH
+          ssh -o StrictHostKeyChecking=no \
+              -p ${SSH_PORT:-22} \
               ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }} << 'DEPLOY_EOF'
+            DEPLOY_PATH="${{ secrets.DEPLOY_PATH }}"
             
-            echo "Starting deployment on server..."
+            # Create deployment directory
+            mkdir -p "$DEPLOY_PATH"
             
-            # Navigate to the deployment directory
-            cd ${{ secrets.DEPLOY_PATH }}
+           
             
-            # Pull the latest changes from the Git repository
-            git pull
+            # Extract and deploy
+            cd "$DEPLOY_PATH"
+            tar -xzf /tmp/deploy.tar.gz --strip-components=1
             
-            # Install PHP dependencies (using --no-dev to keep it clean)
-            composer install --no-dev --optimize-autoloader
+            # Set proper permissions
+            find . -type f -exec chmod 644 {} \; 2>/dev/null || true
+            find . -type d -exec chmod 755 {} \; 2>/dev/null || true
             
-            # Install Node.js dependencies
-            npm install
+            # Laravel specific permissions
+            chmod -R 755 storage 2>/dev/null || true
+            chmod -R 755 bootstrap/cache 2>/dev/null || true
             
-            # Fix permission issues that can arise with npm executables
-            chmod +x node_modules/.bin/* || true
-            chmod +x node_modules/@esbuild/linux-x64/bin/* || true
-
-            # Build front-end assets with Vite
-            npm run build
+            # Ensure required directories exist
+            mkdir -p bootstrap/cache
+            mkdir -p storage/logs
+            mkdir -p storage/framework/cache
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/views
             
-            # Run database migrations (with --force for production safety)
-            php artisan migrate --force
+            # Clean up
+            rm -f /tmp/deploy.tar.gz
             
-            # Clear and cache application for performance
-            php artisan optimize:clear
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-            
-            # Set proper permissions for storage and cache directories
-            chmod -R 755 storage bootstrap/cache
-            chown -R ${{ secrets.CPANEL_USER }}:${{ secrets.CPANEL_USER }} storage bootstrap/cache
-            
-            echo "Deployment completed successfully!"
+            echo "Deployment completed successfully"
           DEPLOY_EOF
+          
+          echo "Deployment via SCP/SSH completed successfully"
+        
+     

@@ -42,7 +42,7 @@
                         &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved for
                         <a href="https://manangvalleywinehk.com" target="_blank">
                             manangvalleywinehk.com
-                        </a>.
+                        </a>
                     </p>
                     <p>
                         Template originally designed by
