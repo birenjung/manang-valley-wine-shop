@@ -28,6 +28,8 @@
 /* Base */
 html {
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .header-top {
@@ -35,7 +37,7 @@ html {
 }
 
 body {
-  line-height: 1.7;
+  /* line-height: 1.7; */
   color: var(--text-primary);
   /* Changed to light gray for dark theme */
   font-weight: 300;
@@ -43,6 +45,8 @@ body {
   background-color: var(--bg-dark);
   /* Set body to a dark background */
   font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 h1,
@@ -604,11 +608,7 @@ h4:hover {
 }
 
 /* Blocks */
-.intro-section {
-  background-size: cover;
-  position: relative;
-  background-position: center center;
-}
+
 
 .intro-section.container .row {
   height: 100vh;
@@ -1740,7 +1740,8 @@ h4:hover {
 
 /* product card */
 .wine_v_1 {
-  background-color: #c9c5c5; /* white background */
+  background-color: #c9c5c5;
+  /* white background */
   border-radius: 6px;
   box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
   padding: 20px;
@@ -1770,7 +1771,8 @@ h4:hover {
 
 .wine_v_1 .price {
   font-weight: 700;
-  color: #d2691e; /* warm brown color */
+  color: #d2691e;
+  /* warm brown color */
   font-size: 1.1rem;
 }
 
@@ -1784,7 +1786,8 @@ h4:hover {
 
 .wine_v_1:hover .wine-actions {
   opacity: 1;
-  max-height: 250px; /* enough to show content */
+  max-height: 250px;
+  /* enough to show content */
 }
 
 .wine-actions .btn.add {
@@ -1809,4 +1812,25 @@ h4:hover {
 
 .wine_v_1 .wine-actions .heading-2 a {
   color: #1fec0d;
+}
+
+
+/* whole page slide */
+
+.owl-carousel.hero-slide,
+.intro-section {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  /* full screen height */
+  width: 100%;
+  /* full width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 !important;
+  /* override any margin */
+  padding: 0 !important;
+  /* override any padding */
 }
